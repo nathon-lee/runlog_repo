@@ -193,11 +193,11 @@ class DeepSpeedPPOTrainer():
 
         return rewards
 
-    # ===== [新增] 通用 NaN/Inf 检测工具 =====
+    # ===== [新增] 通用 NaN/Inf 检测工具（兼容：不依赖 torch.nanmin/nanmax/nanmean）=====
     @staticmethod
     def _nancheck(x, name: str, rank: int = 0, throw: bool = True):
         """
-        Prints min/max/mean for tensor when NaN/Inf detected and optionally raises.
+        Prints min/max/mean (finite-only) when NaN/Inf detected and optionally raises.
         Safe to call on non-tensors (will ignore).
         """
         if x is None:
@@ -213,14 +213,21 @@ class DeepSpeedPPOTrainer():
             return False
 
         with torch.no_grad():
-            xf = x.detach().float()
-            # nanmin/nanmax require torch>=1.8; should be ok in most DS images
-            min_v = torch.nanmin(xf).item()
-            max_v = torch.nanmax(xf).item()
-            mean_v = torch.nanmean(xf).item()
+            xf = x.detach().float().view(-1)
+            finite = xf[torch.isfinite(xf)]
+            if finite.numel() == 0:
+                min_v = float("nan")
+                max_v = float("nan")
+                mean_v = float("nan")
+            else:
+                min_v = finite.min().item()
+                max_v = finite.max().item()
+                mean_v = finite.mean().item()
+
             print_rank_0(
                 f"[nancheck] {name} BAD: shape={tuple(x.shape)} min={min_v} max={max_v} mean={mean_v}",
                 rank)
+
         if throw:
             raise RuntimeError(f"NaN/Inf detected in {name}")
         return True
@@ -279,7 +286,6 @@ class DeepSpeedPPOTrainer():
                                         log_probs[:, start:], advantages,
                                         action_mask[:, start:])
 
-        # actor_loss 这里最关键：你现在 step=8 开始 NaN，大概率在这之前某个张量就坏了
         self._nancheck(actor_loss, "loss/actor_loss", rank)
 
         self.actor_model.backward(actor_loss)
@@ -301,10 +307,8 @@ class DeepSpeedPPOTrainer():
 
         self.critic_model.backward(critic_loss)
 
-        # ===== align_overflow 分支保留原逻辑（但你目前不要打开 --align_overflow）=====
         if self.args.align_overflow:
-            # NOTE: 你的 DeepSpeed 版本不支持 check_overflow(external=...)
-            # 如果你一定要用 align_overflow，需要把 external=True 去掉，或者升级 DeepSpeed。
+            # NOTE: older DeepSpeed versions may not accept external=True
             actor_overflow = self.actor_model.optimizer.check_overflow()
             critic_overflow = self.critic_model.optimizer.check_overflow()
 
@@ -343,13 +347,10 @@ class DeepSpeedPPOTrainer():
         ## policy gradient loss
         log_ratio = (logprobs - old_logprobs) * mask
 
-        # ===== [新增] 这里是 PPO 很常见的 NaN 源头：exp 溢出 =====
-        # 先做一次保护性 clamp，避免 exp(大数) -> inf -> NaN
-        # 这不会解决根因，但能显著减少突然发散。
+        # ===== [新增] 保护：避免 exp 溢出 -> inf -> nan =====
         log_ratio = torch.clamp(log_ratio, min=-20.0, max=20.0)
 
         ratio = torch.exp(log_ratio)
-
         pg_loss1 = -advantages * ratio
         pg_loss2 = -advantages * torch.clamp(ratio, 1.0 - self.cliprange,
                                              1.0 + self.cliprange)
