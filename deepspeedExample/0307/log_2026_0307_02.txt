@@ -1,0 +1,307 @@
+root@1ec6b391eed5:/home/DeepSpeedExamples/applications/DeepSpeed-Chat# PATH=/opt/conda/envs/ds/bin:$PATH bash /home/DeepSpeedExamples/applications/DeepSpeed-Chat/run.sh
+
+
+
+
+
+
+
+
+[2026-03-07 09:09:10,942] [WARNING] [runner.py:232:fetch_hostfile] Unable to find hostfile, will proceed with training with local resources only.
+[2026-03-07 09:09:10,942] [INFO] [runner.py:630:main] cmd = /opt/conda/envs/ds/bin/python -u -m deepspeed.launcher.launch --world_info=eyJsb2NhbGhvc3QiOiBbMF19 --master_addr=127.0.0.1 --master_port=29500 --enable_each_rank_log=None --log_level=info training/step3_rlhf_finetuning/main.py --data_path local/jsonfile --data_split 0,0,10 --data_output_path /tmp/rlhf_data_cache --actor_model_name_or_path gpt2 --critic_model_name_or_path gpt2 --offload --offload_reference_model --offload_reward_model --dtype bf16 --compute_fp32_loss --actor_zero_stage 2 --critic_zero_stage 2 --per_device_generation_batch_size 1 --per_device_training_batch_size 1 --generation_batches 1 --ppo_epochs 1 --max_prompt_seq_len 64 --max_answer_seq_len 8 --gradient_accumulation_steps 1 --num_train_epochs 1 --actor_learning_rate 1e-9 --critic_learning_rate 1e-9 --enable_test_mode --test_stop_step 20 --output_dir /tmp/rlhf_out --seed 42 --print_answers --print_answers_interval 1
+[2026-03-07 09:09:15,082] [INFO] [launch.py:155:main] 0 NV_LIBNCCL_DEV_PACKAGE=libnccl-dev=2.21.5-1+cuda12.4
+[2026-03-07 09:09:15,082] [INFO] [launch.py:155:main] 0 NV_LIBNCCL_DEV_PACKAGE_VERSION=2.21.5-1
+[2026-03-07 09:09:15,082] [INFO] [launch.py:155:main] 0 NCCL_VERSION=2.21.5-1
+[2026-03-07 09:09:15,082] [INFO] [launch.py:155:main] 0 NV_LIBNCCL_DEV_PACKAGE_NAME=libnccl-dev
+[2026-03-07 09:09:15,082] [INFO] [launch.py:155:main] 0 NV_LIBNCCL_PACKAGE=libnccl2=2.21.5-1+cuda12.4
+[2026-03-07 09:09:15,082] [INFO] [launch.py:155:main] 0 NV_LIBNCCL_PACKAGE_NAME=libnccl2
+[2026-03-07 09:09:15,082] [INFO] [launch.py:155:main] 0 NV_LIBNCCL_PACKAGE_VERSION=2.21.5-1
+[2026-03-07 09:09:15,082] [INFO] [launch.py:162:main] WORLD INFO DICT: {'localhost': [0]}
+[2026-03-07 09:09:15,082] [INFO] [launch.py:168:main] nnodes=1, num_local_procs=1, node_rank=0
+[2026-03-07 09:09:15,082] [INFO] [launch.py:179:main] global_rank_mapping=defaultdict(<class 'list'>, {'localhost': [0]})
+[2026-03-07 09:09:15,082] [INFO] [launch.py:180:main] dist_world_size=1
+[2026-03-07 09:09:15,082] [INFO] [launch.py:184:main] Setting CUDA_VISIBLE_DEVICES=0
+[2026-03-07 09:09:15,083] [INFO] [launch.py:272:main] process 17523 spawned with command: ['/opt/conda/envs/ds/bin/python', '-u', 'training/step3_rlhf_finetuning/main.py', '--local_rank=0', '--data_path', 'local/jsonfile', '--data_split', '0,0,10', '--data_output_path', '/tmp/rlhf_data_cache', '--actor_model_name_or_path', 'gpt2', '--critic_model_name_or_path', 'gpt2', '--offload', '--offload_reference_model', '--offload_reward_model', '--dtype', 'bf16', '--compute_fp32_loss', '--actor_zero_stage', '2', '--critic_zero_stage', '2', '--per_device_generation_batch_size', '1', '--per_device_training_batch_size', '1', '--generation_batches', '1', '--ppo_epochs', '1', '--max_prompt_seq_len', '64', '--max_answer_seq_len', '8', '--gradient_accumulation_steps', '1', '--num_train_epochs', '1', '--actor_learning_rate', '1e-9', '--critic_learning_rate', '1e-9', '--enable_test_mode', '--test_stop_step', '20', '--output_dir', '/tmp/rlhf_out', '--seed', '42', '--print_answers', '--print_answers_interval', '1']
+Creating prompt dataset ['local/jsonfile'], reload=False
+Creating dataset jsonfile for train_phase=3 size=200 filtered=0
+Creating dataset jsonfile for train_phase=3 size=20 filtered=0
+************************[start] Initializing Actor Model [start] *************************
+/opt/conda/envs/ds/lib/python3.10/site-packages/huggingface_hub/file_download.py:949: FutureWarning: `resume_download` is deprecated and will be removed in version 1.0.0. Downloads always resume when possible. If you want to force a new download, use `force_download=True`.
+  warnings.warn(
+Installed CUDA version 12.4 does not match the version torch was compiled with 12.8 but since the APIs are compatible, accepting this combination
+Before initializing optimizer states
+MA 0.32 GB         Max_MA 0.32 GB         CA 0.32 GB         Max_CA 0 GB
+CPU Virtual Memory:  used = 37.24 GB, percent = 7.4%
+After initializing optimizer states
+MA 0.32 GB         Max_MA 0.32 GB         CA 0.32 GB         Max_CA 0 GB
+CPU Virtual Memory:  used = 37.7 GB, percent = 7.5%
+After initializing ZeRO optimizer
+MA 0.32 GB         Max_MA 0.32 GB         CA 0.32 GB         Max_CA 0 GB
+CPU Virtual Memory:  used = 37.69 GB, percent = 7.5%
+******************[end] Initialized Actor Model [end] (duration: 7.06s)*******************
+*************************[start] Initializing Ref Model [start] **************************
+/opt/conda/envs/ds/lib/python3.10/site-packages/huggingface_hub/file_download.py:949: FutureWarning: `resume_download` is deprecated and will be removed in version 1.0.0. Downloads always resume when possible. If you want to force a new download, use `force_download=True`.
+  warnings.warn(
+begin bf16_optimizer
+MA 0.57 GB         Max_MA 0.57 GB         CA 0.58 GB         Max_CA 1 GB
+CPU Virtual Memory:  used = 37.79 GB, percent = 7.5%
+end bf16_ optimizer
+MA 0.57 GB         Max_MA 0.57 GB         CA 0.58 GB         Max_CA 1 GB
+CPU Virtual Memory:  used = 37.78 GB, percent = 7.5%
+*******************[end] Initialized Ref Model [end] (duration: 1.54s)********************
+************************[start] Initializing Critic Model [start] ************************
+>Creating model from_config took 0.5891168117523193 seconds
+Fetching 26 files: 100%|████████████████████████████████████████████████████████████████████████████████████████████████| 26/26 [00:00<00:00, 15621.24it/s]
+>Creating model from_config took 0.35276055335998535 seconds
+>Creating model from_config took 0.002672433853149414 seconds
+Before initializing optimizer states
+MA 0.88 GB         Max_MA 0.88 GB         CA 0.89 GB         Max_CA 1 GB
+CPU Virtual Memory:  used = 39.04 GB, percent = 7.8%
+After initializing optimizer states
+MA 0.88 GB         Max_MA 0.88 GB         CA 0.89 GB         Max_CA 1 GB
+CPU Virtual Memory:  used = 39.51 GB, percent = 7.8%
+After initializing ZeRO optimizer
+MA 0.88 GB         Max_MA 0.88 GB         CA 0.89 GB         Max_CA 1 GB
+CPU Virtual Memory:  used = 39.5 GB, percent = 7.8%
+******************[end] Initialized Critic Model [end] (duration: 4.29s)******************
+************************[start] Initializing Reward Model [start] ************************
+>Creating model from_config took 0.5641865730285645 seconds
+Fetching 26 files: 100%|████████████████████████████████████████████████████████████████████████████████████████████████| 26/26 [00:00<00:00, 13481.51it/s]
+>Creating model from_config took 0.3966708183288574 seconds
+>Creating model from_config took 0.002888202667236328 seconds
+begin bf16_optimizer
+MA 1.13 GB         Max_MA 1.13 GB         CA 1.15 GB         Max_CA 1 GB
+CPU Virtual Memory:  used = 39.76 GB, percent = 7.9%
+end bf16_ optimizer
+MA 1.13 GB         Max_MA 1.13 GB         CA 1.15 GB         Max_CA 1 GB
+CPU Virtual Memory:  used = 39.76 GB, percent = 7.9%
+******************[end] Initialized Reward Model [end] (duration: 2.47s)******************
+***** Running training (total_iters=200) *****
+Beginning of Epoch 1/1, Total Generation Batches 200
+--- prompt --> step=0, rank=0, [' Summarize the plot of Hamlet in 3 sentences. (train #122)']
+--- ans    --> step=0, rank=0, ['']
+Epoch: 0 | Step: 0 | PPO Epoch: 1 | Actor Loss: 0.4253947138786316 | Critic Loss: 0.42961055040359497 | Unsupervised Loss: 0.0
+End-to-End => Latency: 1.70s, TFLOPs: 0.07, Samples/sec: 0.59, Time/seq 1.70s, Batch Size: 1, Total Seq. Length: 72
+Generation => Latency: 0.41s, Per-token Latency 51.24 ms, TFLOPs: 0.04, BW: -1.00 GB/sec, Answer Seq. Length: 8
+Training   => Latency: 1.29s, TFLOPs: 0.08
+Actor Model Parameters => 0.124 B, Critic Model Parameters => 0.124 B
+Average reward score: 0.0 | EMA reward score: 0.0
+-------------------------------------------------------------------------------------
+--- prompt --> step=1, rank=0, [' Give me 5 tips to improve sleep. (train #98)']
+--- ans    --> step=1, rank=0, [' US']
+Epoch: 0 | Step: 1 | PPO Epoch: 1 | Actor Loss: -4.1853508949279785 | Critic Loss: 15.531835556030273 | Unsupervised Loss: 0.0
+End-to-End => Latency: 0.65s, TFLOPs: 0.18, Samples/sec: 1.53, Time/seq 0.65s, Batch Size: 1, Total Seq. Length: 72
+Generation => Latency: 0.07s, Per-token Latency 8.89 ms, TFLOPs: 0.23, BW: -1.00 GB/sec, Answer Seq. Length: 8
+Training   => Latency: 0.58s, TFLOPs: 0.17
+Actor Model Parameters => 0.124 B, Critic Model Parameters => 0.124 B
+Average reward score: 0.0 | EMA reward score: 0.0
+-------------------------------------------------------------------------------------
+--- prompt --> step=2, rank=0, [' Tell me a short joke. (train #131)']
+--- ans    --> step=2, rank=0, ['']
+Epoch: 0 | Step: 2 | PPO Epoch: 1 | Actor Loss: -0.889350414276123 | Critic Loss: 0.46522748470306396 | Unsupervised Loss: 0.0
+End-to-End => Latency: 0.66s, TFLOPs: 0.18, Samples/sec: 1.52, Time/seq 0.66s, Batch Size: 1, Total Seq. Length: 72
+Generation => Latency: 0.07s, Per-token Latency 8.87 ms, TFLOPs: 0.23, BW: -1.00 GB/sec, Answer Seq. Length: 8
+Training   => Latency: 0.59s, TFLOPs: 0.17
+Actor Model Parameters => 0.124 B, Critic Model Parameters => 0.124 B
+Average reward score: 0.0 | EMA reward score: 0.0
+-------------------------------------------------------------------------------------
+--- prompt --> step=3, rank=0, [' Summarize the plot of Hamlet in 3 sentences. (train #35)']
+--- ans    --> step=3, rank=0, ['']
+Epoch: 0 | Step: 3 | PPO Epoch: 1 | Actor Loss: 0.3561449944972992 | Critic Loss: 0.40662914514541626 | Unsupervised Loss: 0.0
+End-to-End => Latency: 0.66s, TFLOPs: 0.18, Samples/sec: 1.51, Time/seq 0.66s, Batch Size: 1, Total Seq. Length: 72
+Generation => Latency: 0.07s, Per-token Latency 8.78 ms, TFLOPs: 0.24, BW: -1.00 GB/sec, Answer Seq. Length: 8
+Training   => Latency: 0.59s, TFLOPs: 0.17
+Actor Model Parameters => 0.124 B, Critic Model Parameters => 0.124 B
+Average reward score: 0.0 | EMA reward score: 0.0
+-------------------------------------------------------------------------------------
+--- prompt --> step=4, rank=0, [' Tell me a short joke. (train #68)']
+--- ans    --> step=4, rank=0, ['']
+Epoch: 0 | Step: 4 | PPO Epoch: 1 | Actor Loss: -0.4159858524799347 | Critic Loss: 0.4213481843471527 | Unsupervised Loss: 0.0
+End-to-End => Latency: 0.66s, TFLOPs: 0.18, Samples/sec: 1.51, Time/seq 0.66s, Batch Size: 1, Total Seq. Length: 72
+Generation => Latency: 0.07s, Per-token Latency 8.77 ms, TFLOPs: 0.24, BW: -1.00 GB/sec, Answer Seq. Length: 8
+Training   => Latency: 0.59s, TFLOPs: 0.17
+Actor Model Parameters => 0.124 B, Critic Model Parameters => 0.124 B
+Average reward score: 0.0 | EMA reward score: 0.0
+-------------------------------------------------------------------------------------
+--- prompt --> step=5, rank=0, [' Give me 5 tips to improve sleep. (train #118)']
+--- ans    --> step=5, rank=0, [' I']
+Epoch: 0 | Step: 5 | PPO Epoch: 1 | Actor Loss: -0.27755674719810486 | Critic Loss: 1.2601972818374634 | Unsupervised Loss: 0.0
+End-to-End => Latency: 0.66s, TFLOPs: 0.18, Samples/sec: 1.51, Time/seq 0.66s, Batch Size: 1, Total Seq. Length: 72
+Generation => Latency: 0.07s, Per-token Latency 8.78 ms, TFLOPs: 0.24, BW: -1.00 GB/sec, Answer Seq. Length: 8
+Training   => Latency: 0.59s, TFLOPs: 0.17
+Actor Model Parameters => 0.124 B, Critic Model Parameters => 0.124 B
+Average reward score: 0.0 | EMA reward score: 0.0
+-------------------------------------------------------------------------------------
+--- prompt --> step=6, rank=0, [' Write a haiku about the ocean. (train #119)']
+--- ans    --> step=6, rank=0, ['']
+Epoch: 0 | Step: 6 | PPO Epoch: 1 | Actor Loss: 0.5601714849472046 | Critic Loss: 0.26760563254356384 | Unsupervised Loss: 0.0
+End-to-End => Latency: 0.66s, TFLOPs: 0.18, Samples/sec: 1.51, Time/seq 0.66s, Batch Size: 1, Total Seq. Length: 72
+Generation => Latency: 0.07s, Per-token Latency 8.77 ms, TFLOPs: 0.24, BW: -1.00 GB/sec, Answer Seq. Length: 8
+Training   => Latency: 0.59s, TFLOPs: 0.17
+Actor Model Parameters => 0.124 B, Critic Model Parameters => 0.124 B
+Average reward score: 0.0 | EMA reward score: 0.0
+-------------------------------------------------------------------------------------
+--- prompt --> step=7, rank=0, [' Write a haiku about the ocean. (train #66)']
+--- ans    --> step=7, rank=0, ['']
+Epoch: 0 | Step: 7 | PPO Epoch: 1 | Actor Loss: 4.789252281188965 | Critic Loss: 1.9313160181045532 | Unsupervised Loss: 0.0
+End-to-End => Latency: 0.76s, TFLOPs: 0.15, Samples/sec: 1.32, Time/seq 0.76s, Batch Size: 1, Total Seq. Length: 72
+Generation => Latency: 0.07s, Per-token Latency 8.75 ms, TFLOPs: 0.24, BW: -1.00 GB/sec, Answer Seq. Length: 8
+Training   => Latency: 0.69s, TFLOPs: 0.14
+Actor Model Parameters => 0.124 B, Critic Model Parameters => 0.124 B
+Average reward score: 0.0 | EMA reward score: 0.0
+-------------------------------------------------------------------------------------
+--- prompt --> step=8, rank=0, [' Tell me a short joke. (train #77)']
+--- ans    --> step=8, rank=0, [' I']
+Epoch: 0 | Step: 8 | PPO Epoch: 1 | Actor Loss: -8.048027038574219 | Critic Loss: 39.17096710205078 | Unsupervised Loss: 0.0
+End-to-End => Latency: 0.67s, TFLOPs: 0.17, Samples/sec: 1.50, Time/seq 0.67s, Batch Size: 1, Total Seq. Length: 72
+Generation => Latency: 0.07s, Per-token Latency 8.83 ms, TFLOPs: 0.23, BW: -1.00 GB/sec, Answer Seq. Length: 8
+Training   => Latency: 0.60s, TFLOPs: 0.17
+Actor Model Parameters => 0.124 B, Critic Model Parameters => 0.124 B
+Average reward score: 0.0 | EMA reward score: 0.0
+-------------------------------------------------------------------------------------
+--- prompt --> step=9, rank=0, [' Explain reinforcement learning in one paragraph. (train #163)']
+--- ans    --> step=9, rank=0, ['']
+Epoch: 0 | Step: 9 | PPO Epoch: 1 | Actor Loss: 0.11894671618938446 | Critic Loss: 0.4386903941631317 | Unsupervised Loss: 0.0
+End-to-End => Latency: 0.66s, TFLOPs: 0.18, Samples/sec: 1.51, Time/seq 0.66s, Batch Size: 1, Total Seq. Length: 72
+Generation => Latency: 0.07s, Per-token Latency 8.76 ms, TFLOPs: 0.24, BW: -1.00 GB/sec, Answer Seq. Length: 8
+Training   => Latency: 0.59s, TFLOPs: 0.17
+Actor Model Parameters => 0.124 B, Critic Model Parameters => 0.124 B
+Average reward score: 0.0 | EMA reward score: 0.0
+-------------------------------------------------------------------------------------
+--- prompt --> step=10, rank=0, [' Write a haiku about the ocean. (train #97)']
+--- ans    --> step=10, rank=0, ['']
+Epoch: 0 | Step: 10 | PPO Epoch: 1 | Actor Loss: -0.4394727945327759 | Critic Loss: 1.3378841876983643 | Unsupervised Loss: 0.0
+End-to-End => Latency: 0.67s, TFLOPs: 0.17, Samples/sec: 1.50, Time/seq 0.67s, Batch Size: 1, Total Seq. Length: 72
+Generation => Latency: 0.07s, Per-token Latency 8.76 ms, TFLOPs: 0.24, BW: -1.00 GB/sec, Answer Seq. Length: 8
+Training   => Latency: 0.60s, TFLOPs: 0.17
+Actor Model Parameters => 0.124 B, Critic Model Parameters => 0.124 B
+Average reward score: 0.0 | EMA reward score: 0.0
+-------------------------------------------------------------------------------------
+--- prompt --> step=11, rank=0, [' Tell me a short joke. (train #188)']
+--- ans    --> step=11, rank=0, ['']
+Epoch: 0 | Step: 11 | PPO Epoch: 1 | Actor Loss: -1.1481294631958008 | Critic Loss: 1.080646276473999 | Unsupervised Loss: 0.0
+End-to-End => Latency: 0.85s, TFLOPs: 0.14, Samples/sec: 1.17, Time/seq 0.85s, Batch Size: 1, Total Seq. Length: 72
+Generation => Latency: 0.14s, Per-token Latency 17.37 ms, TFLOPs: 0.12, BW: -1.00 GB/sec, Answer Seq. Length: 8
+Training   => Latency: 0.71s, TFLOPs: 0.14
+Actor Model Parameters => 0.124 B, Critic Model Parameters => 0.124 B
+Average reward score: 0.0 | EMA reward score: 0.0
+-------------------------------------------------------------------------------------
+--- prompt --> step=12, rank=0, [' Tell me a short joke. (train #64)']
+--- ans    --> step=12, rank=0, ['']
+Epoch: 0 | Step: 12 | PPO Epoch: 1 | Actor Loss: 2.168257713317871 | Critic Loss: 1.074489712715149 | Unsupervised Loss: 0.0
+End-to-End => Latency: 0.66s, TFLOPs: 0.18, Samples/sec: 1.51, Time/seq 0.66s, Batch Size: 1, Total Seq. Length: 72
+Generation => Latency: 0.08s, Per-token Latency 9.43 ms, TFLOPs: 0.22, BW: -1.00 GB/sec, Answer Seq. Length: 8
+Training   => Latency: 0.59s, TFLOPs: 0.17
+Actor Model Parameters => 0.124 B, Critic Model Parameters => 0.124 B
+Average reward score: 0.0 | EMA reward score: 0.0
+-------------------------------------------------------------------------------------
+--- prompt --> step=13, rank=0, [' Give me 5 tips to improve sleep. (train #41)']
+--- ans    --> step=13, rank=0, [' US']
+Epoch: 0 | Step: 13 | PPO Epoch: 1 | Actor Loss: -0.4775380492210388 | Critic Loss: 1.44014310836792 | Unsupervised Loss: 0.0
+End-to-End => Latency: 0.77s, TFLOPs: 0.15, Samples/sec: 1.30, Time/seq 0.77s, Batch Size: 1, Total Seq. Length: 72
+Generation => Latency: 0.08s, Per-token Latency 9.40 ms, TFLOPs: 0.22, BW: -1.00 GB/sec, Answer Seq. Length: 8
+Training   => Latency: 0.69s, TFLOPs: 0.14
+Actor Model Parameters => 0.124 B, Critic Model Parameters => 0.124 B
+Average reward score: 0.0 | EMA reward score: 0.0
+-------------------------------------------------------------------------------------
+--- prompt --> step=14, rank=0, [' Write a haiku about the ocean. (train #191)']
+--- ans    --> step=14, rank=0, ['']
+Epoch: 0 | Step: 14 | PPO Epoch: 1 | Actor Loss: -0.12787900865077972 | Critic Loss: 0.4753933548927307 | Unsupervised Loss: 0.0
+End-to-End => Latency: 0.76s, TFLOPs: 0.15, Samples/sec: 1.32, Time/seq 0.76s, Batch Size: 1, Total Seq. Length: 72
+Generation => Latency: 0.15s, Per-token Latency 18.23 ms, TFLOPs: 0.11, BW: -1.00 GB/sec, Answer Seq. Length: 8
+Training   => Latency: 0.61s, TFLOPs: 0.16
+Actor Model Parameters => 0.124 B, Critic Model Parameters => 0.124 B
+Average reward score: 0.0 | EMA reward score: 0.0
+-------------------------------------------------------------------------------------
+--- prompt --> step=15, rank=0, [' Explain reinforcement learning in one paragraph. (train #178)']
+--- ans    --> step=15, rank=0, ['']
+Epoch: 0 | Step: 15 | PPO Epoch: 1 | Actor Loss: 0.2681964635848999 | Critic Loss: 0.2502657473087311 | Unsupervised Loss: 0.0
+End-to-End => Latency: 0.66s, TFLOPs: 0.18, Samples/sec: 1.51, Time/seq 0.66s, Batch Size: 1, Total Seq. Length: 72
+Generation => Latency: 0.07s, Per-token Latency 8.75 ms, TFLOPs: 0.24, BW: -1.00 GB/sec, Answer Seq. Length: 8
+Training   => Latency: 0.59s, TFLOPs: 0.17
+Actor Model Parameters => 0.124 B, Critic Model Parameters => 0.124 B
+Average reward score: 0.0 | EMA reward score: 0.0
+-------------------------------------------------------------------------------------
+--- prompt --> step=16, rank=0, [' Summarize the plot of Hamlet in 3 sentences. (train #65)']
+--- ans    --> step=16, rank=0, ['']
+Epoch: 0 | Step: 16 | PPO Epoch: 1 | Actor Loss: 0.8181231021881104 | Critic Loss: 1.0083128213882446 | Unsupervised Loss: 0.0
+End-to-End => Latency: 0.66s, TFLOPs: 0.18, Samples/sec: 1.51, Time/seq 0.66s, Batch Size: 1, Total Seq. Length: 72
+Generation => Latency: 0.07s, Per-token Latency 8.76 ms, TFLOPs: 0.24, BW: -1.00 GB/sec, Answer Seq. Length: 8
+Training   => Latency: 0.59s, TFLOPs: 0.17
+Actor Model Parameters => 0.124 B, Critic Model Parameters => 0.124 B
+Average reward score: 0.0 | EMA reward score: 0.0
+-------------------------------------------------------------------------------------
+--- prompt --> step=17, rank=0, [' Summarize the plot of Hamlet in 3 sentences. (train #81)']
+--- ans    --> step=17, rank=0, ['']
+Epoch: 0 | Step: 17 | PPO Epoch: 1 | Actor Loss: 0.27479490637779236 | Critic Loss: 0.7992005348205566 | Unsupervised Loss: 0.0
+End-to-End => Latency: 0.66s, TFLOPs: 0.18, Samples/sec: 1.51, Time/seq 0.66s, Batch Size: 1, Total Seq. Length: 72
+Generation => Latency: 0.07s, Per-token Latency 9.31 ms, TFLOPs: 0.22, BW: -1.00 GB/sec, Answer Seq. Length: 8
+Training   => Latency: 0.59s, TFLOPs: 0.17
+Actor Model Parameters => 0.124 B, Critic Model Parameters => 0.124 B
+Average reward score: 0.0 | EMA reward score: 0.0
+-------------------------------------------------------------------------------------
+--- prompt --> step=18, rank=0, [' Explain reinforcement learning in one paragraph. (train #43)']
+--- ans    --> step=18, rank=0, ['']
+Epoch: 0 | Step: 18 | PPO Epoch: 1 | Actor Loss: -0.5258995294570923 | Critic Loss: 0.4052514433860779 | Unsupervised Loss: 0.0
+End-to-End => Latency: 0.66s, TFLOPs: 0.18, Samples/sec: 1.51, Time/seq 0.66s, Batch Size: 1, Total Seq. Length: 72
+Generation => Latency: 0.08s, Per-token Latency 9.38 ms, TFLOPs: 0.22, BW: -1.00 GB/sec, Answer Seq. Length: 8
+Training   => Latency: 0.59s, TFLOPs: 0.17
+Actor Model Parameters => 0.124 B, Critic Model Parameters => 0.124 B
+Average reward score: 0.0 | EMA reward score: 0.0
+-------------------------------------------------------------------------------------
+--- prompt --> step=19, rank=0, [' Summarize the plot of Hamlet in 3 sentences. (train #83)']
+--- ans    --> step=19, rank=0, ['']
+Epoch: 0 | Step: 19 | PPO Epoch: 1 | Actor Loss: 0.1421310305595398 | Critic Loss: 0.970490038394928 | Unsupervised Loss: 0.0
+End-to-End => Latency: 0.66s, TFLOPs: 0.17, Samples/sec: 1.51, Time/seq 0.66s, Batch Size: 1, Total Seq. Length: 72
+Generation => Latency: 0.07s, Per-token Latency 9.37 ms, TFLOPs: 0.22, BW: -1.00 GB/sec, Answer Seq. Length: 8
+Training   => Latency: 0.59s, TFLOPs: 0.17
+Actor Model Parameters => 0.124 B, Critic Model Parameters => 0.124 B
+Average reward score: 0.0 | EMA reward score: 0.0
+-------------------------------------------------------------------------------------
+saving model ...
+[2026-03-07 09:09:55,191] [INFO] [launch.py:367:main] Process 17523 exits successfully.
+root@1ec6b391eed5:/home/DeepSpeedExamples/applications/DeepSpeed-Chat#
+root@1ec6b391eed5:/home/DeepSpeedExamples/applications/DeepSpeed-Chat#
+root@1ec6b391eed5:/home/DeepSpeedExamples/applications/DeepSpeed-Chat#
+root@1ec6b391eed5:/home/DeepSpeedExamples/applications/DeepSpeed-Chat#
+root@1ec6b391eed5:/home/DeepSpeedExamples/applications/DeepSpeed-Chat#
+root@1ec6b391eed5:/home/DeepSpeedExamples/applications/DeepSpeed-Chat#
+root@1ec6b391eed5:/home/DeepSpeedExamples/applications/DeepSpeed-Chat#
+root@1ec6b391eed5:/home/DeepSpeedExamples/applications/DeepSpeed-Chat#
+root@1ec6b391eed5:/home/DeepSpeedExamples/applications/DeepSpeed-Chat#
+root@1ec6b391eed5:/home/DeepSpeedExamples/applications/DeepSpeed-Chat# ls
+README.md  assets  chat.py  data  dschat  e2e_rlhf.py  inference  requirements.txt  run.sh  setup.py  tests  training
+root@1ec6b391eed5:/home/DeepSpeedExamples/applications/DeepSpeed-Chat# cat run.sh
+#!/usr/bin/env bash
+set -eu
+
+rm -rf /tmp/rlhf_data_cache /tmp/rlhf_out
+cd /home/DeepSpeedExamples/applications/DeepSpeed-Chat
+
+PYTHONPATH=/home/DeepSpeedExamples/applications/DeepSpeed-Chat:${PYTHONPATH:-} \
+/opt/conda/envs/ds/bin/deepspeed --num_gpus 1 training/step3_rlhf_finetuning/main.py \
+  --data_path local/jsonfile \
+  --data_split 0,0,10 \
+  --data_output_path /tmp/rlhf_data_cache \
+  --actor_model_name_or_path gpt2 \
+  --critic_model_name_or_path gpt2 \
+  --offload --offload_reference_model --offload_reward_model \
+  --dtype bf16 \
+  --compute_fp32_loss \
+  --actor_zero_stage 2 --critic_zero_stage 2 \
+  --per_device_generation_batch_size 1 \
+  --per_device_training_batch_size 1 \
+  --generation_batches 1 \
+  --ppo_epochs 1 \
+  --max_prompt_seq_len 64 \
+  --max_answer_seq_len 8 \
+  --gradient_accumulation_steps 1 \
+  --num_train_epochs 1 \
+  --actor_learning_rate 1e-9 \
+  --critic_learning_rate 1e-9 \
+  --enable_test_mode --test_stop_step 20 \
+  --output_dir /tmp/rlhf_out \
+  --seed 42 \
+  --print_answers --print_answers_interval 1
+root@1ec6b391eed5:/home/DeepSpeedExamples/applications/DeepSpeed-Chat#
+--- prompt --> step=8, rank=0, [' Tell me a short joke. (train #77)']
