@@ -1,0 +1,70 @@
+root@ff8a262ce176:/home/DeepSpeed_woo#
+root@ff8a262ce176:/home/DeepSpeed_woo# pytest -q tests/unit/runtime/tensor_parallel/test_autotp_universal_checkpoint.py
+================================================================ test session starts =================================================================
+platform linux -- Python 3.11.10, pytest-9.0.2, pluggy-1.6.0 -- /usr/bin/python
+cachedir: .pytest_cache
+rootdir: /home/DeepSpeed_woo/tests
+configfile: pytest.ini
+plugins: anyio-4.6.0
+collected 9 items
+
+tests/unit/runtime/tensor_parallel/test_autotp_universal_checkpoint.py::test_collect_autotp_universal_checkpoint_info_row_parallel PASSED      [ 11%]
+tests/unit/runtime/tensor_parallel/test_autotp_universal_checkpoint.py::test_collect_autotp_universal_checkpoint_info_subparams PASSED         [ 22%]
+tests/unit/runtime/tensor_parallel/test_autotp_universal_checkpoint.py::test_collect_autotp_universal_checkpoint_info_column_parallel_bias_not_replicated PASSED [ 33%]
+tests/unit/runtime/tensor_parallel/test_autotp_universal_checkpoint.py::test_collect_autotp_universal_checkpoint_info_subparams_preserves_shape_metadata PASSED [ 44%]
+tests/unit/runtime/tensor_parallel/test_autotp_universal_checkpoint.py::test_subparam_layer_marks_standardized_param_metadata PASSED           [ 55%]
+tests/unit/runtime/tensor_parallel/test_autotp_universal_checkpoint.py::test_universal_checkpoint_info_excludes_param_level_recovery_fields PASSED [ 66%]
+tests/unit/runtime/tensor_parallel/test_autotp_universal_checkpoint.py::test_collect_uses_conversion_view_not_recovery_fields PASSED           [ 77%]
+tests/unit/runtime/tensor_parallel/test_autotp_universal_checkpoint.py::test_param_uc_restore_builder_normalizes_shapes_and_nests_conversion_view PASSED [ 88%]
+tests/unit/runtime/tensor_parallel/test_autotp_universal_checkpoint.py::test_conversion_helper_reads_builder_nested_view PASSED                [100%]
+
+================================================================== warnings summary ==================================================================
+unit/runtime/tensor_parallel/test_autotp_universal_checkpoint.py::test_collect_autotp_universal_checkpoint_info_row_parallel
+  /home/DeepSpeed_woo/tests/conftest.py:47: UserWarning: Running test without verifying torch version, please provide an expected torch version with --torch_ver
+    warnings.warn(
+
+unit/runtime/tensor_parallel/test_autotp_universal_checkpoint.py::test_collect_autotp_universal_checkpoint_info_row_parallel
+  /home/DeepSpeed_woo/tests/conftest.py:54: UserWarning: Running test without verifying cuda version, please provide an expected cuda version with --cuda_ver
+    warnings.warn(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+================================================================= slowest durations ==================================================================
+
+(27 durations < 1s hidden.)
+=========================================================== 9 passed, 2 warnings in 2.83s ============================================================
+root@ff8a262ce176:/home/DeepSpeed_woo# pytest -q tests/unit/runtime/tensor_parallel/test_autotp_universal_checkpoint.py^C
+root@ff8a262ce176:/home/DeepSpeed_woo# -qtests/unit/runtime/tensor_parallel/test_autotp_universal_checkpoint.pytest^C
+root@ff8a262ce176:/home/DeepSpeed_woo# pytest -q tests/unit/checkpoint/test_autotp_universal_checkpoint.py
+================================================================ test session starts =================================================================
+platform linux -- Python 3.11.10, pytest-9.0.2, pluggy-1.6.0 -- /usr/bin/python
+cachedir: .pytest_cache
+rootdir: /home/DeepSpeed_woo/tests
+configfile: pytest.ini
+plugins: anyio-4.6.0
+collected 9 items
+
+tests/unit/checkpoint/test_autotp_universal_checkpoint.py::test_resolve_autotp_partition_row_parallel_weight PASSED                            [ 11%]
+tests/unit/checkpoint/test_autotp_universal_checkpoint.py::test_resolve_autotp_partition_subparam_column_weight PASSED                         [ 22%]
+tests/unit/checkpoint/test_autotp_universal_checkpoint.py::test_resolve_autotp_partition_replicated_bias PASSED                                [ 33%]
+tests/unit/checkpoint/test_autotp_universal_checkpoint.py::test_load_hp_checkpoint_state_prefers_autotp_metadata PASSED                        [ 44%]
+tests/unit/checkpoint/test_autotp_universal_checkpoint.py::test_merge_tp_slices_emits_subparam_shape_metadata PASSED                           [ 55%]
+tests/unit/checkpoint/test_autotp_universal_checkpoint.py::test_merge_tp_slices_uses_row_parallel_cat_dim PASSED                               [ 66%]
+tests/unit/checkpoint/test_autotp_universal_checkpoint.py::test_zero_optimizer_uc_info_comes_from_cached_state PASSED                          [ 77%]
+tests/unit/checkpoint/test_autotp_universal_checkpoint.py::test_bf16_optimizer_uc_info_comes_from_cached_state PASSED                          [ 88%]
+tests/unit/checkpoint/test_autotp_universal_checkpoint.py::test_get_param_uc_restore_meta_returns_top_level_restore_schema PASSED              [100%]
+
+================================================================== warnings summary ==================================================================
+unit/checkpoint/test_autotp_universal_checkpoint.py::test_resolve_autotp_partition_row_parallel_weight
+  /home/DeepSpeed_woo/tests/conftest.py:47: UserWarning: Running test without verifying torch version, please provide an expected torch version with --torch_ver
+    warnings.warn(
+
+unit/checkpoint/test_autotp_universal_checkpoint.py::test_resolve_autotp_partition_row_parallel_weight
+  /home/DeepSpeed_woo/tests/conftest.py:54: UserWarning: Running test without verifying cuda version, please provide an expected cuda version with --cuda_ver
+    warnings.warn(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+================================================================= slowest durations ==================================================================
+
+(27 durations < 1s hidden.)
+=========================================================== 9 passed, 2 warnings in 2.71s ============================================================
+root@ff8a262ce176:/home/DeepSpeed_woo#
