@@ -1,0 +1,43 @@
+今天部署/运行过程中主要遇到并解决（或定位）了这些问题：
+
+1) **Transformers 生成参数冲突的 Warning**
+- 现象：运行 `test1.py` 时提示同时设置了 `max_new_tokens(=256)` 和 `max_length(=20)`，并且 `max_new_tokens` 优先。
+- 原因：你虽然在代码里没显式写 `max_length`，但 `pipeline("text-generation")` 内部/默认配置会给 `generate()` 带上默认 `max_length`，与其它地方（默认或模型配置）提供的 `max_new_tokens` 叠加。
+- 处理：在调用时显式只传一个参数（建议只用 `max_new_tokens`），或改为直接用 `model.generate()` 完全自己控制参数。
+
+2) **HF Hub 未认证访问提示（HF_TOKEN）**
+- 现象���提示 “You are sending unauthenticated requests… set a HF_TOKEN…”
+- 原因：未登录/未设置 token，导致下载限速和更严格的 rate limit。
+- 处理：设置 `HF_TOKEN` 后该提示消失（但与 max_length/max_new_tokens 的 warning 无关）。
+
+3) **Vim 输入中文乱码**
+- 现象：vim 中输入中文乱码。
+- 原因：容器环境 `locale` 全是 `POSIX`，且 `LANG/LC_ALL` 为空（不是 UTF-8）。
+- 处理：设置 `LANG/LC_ALL` 为 `C.UTF-8` 或安装并生成 `en_US.UTF-8`；同时可在 `.vimrc` 里强制 `encoding=utf-8`/`fileencoding=utf-8`。
+
+4) **`transformers chat` 一开始连不上：服务未启动**
+- 现象：`transformers chat ...` 报 “No server currently running on http://localhost:8000…”
+- 原因：`transformers chat` 是“客户端”，需要先有 `transformers serve` 起本地 FastAPI 服务。
+- 处理：先启动 `transformers serve`，再运行 `transformers chat` 连接。
+
+5) **CLI 参数不兼容：`transformers serve` 没有 `--model`**
+- 现象：`transformers serve --model ...` 报 “No such option: --model”
+- 原因：你安装的 transformers 版本里 `serve` 的参数是 `--force-model`、`--device` 等，不是旧写法的 `--model` / `--device-map`。
+- 处理：按 `transformers serve -h` 改用 `--force-model Qwen/... --device auto --port 8000 ...`。
+
+6) **环境切换问题：`transformers: command not found`**
+- 现象：在 `root@...:/#` 下执行 `transformers chat` 报找不到命令。
+- 原因：那时没激活 venv；`transformers` 可执行文件在 `/home/.my-env/bin/transformers`。
+- 处理：`source /home/.my-env/bin/activate` 或直接用绝对路径运行。
+
+7) **`transformers chat` 与 `serve` 的健康检查路径不一致（关键坑）**
+- 现象：
+  - `curl http://localhost:8000/health` 返回 200
+  - `curl http://localhost:8000/v1/health` 返回 404
+  - `transformers chat Qwen/... http://localhost:8000/v1` 因 `/v1/health` 404 直接失败
+- 原因：你这版 `serve` 的 health endpoint 在根路径 `/health`，而 `chat` 会对传入的 `BASE_URL` 追加 `/health` 做检查；所以 **BASE_URL 不能带 `/v1`**，否则会变成 `/v1/health`。
+- 处理结论：
+  - **给 `transformers chat` 用的 BASE_URL**：`http://localhost:8000`
+  - **给 OpenAI 兼容 API 客户端用的 base_url**：通常仍是 `http://localhost:8000/v1`（用于 `/v1/chat/completions` 等）。
+
+如果你希望我把“最终可工作的命令清单”也一起整理出来（serve 怎么起、chat 怎么连、curl 怎么测、以及建议的 Python 直跑脚本），我可以按你当前环境再给一份一键版步骤。
