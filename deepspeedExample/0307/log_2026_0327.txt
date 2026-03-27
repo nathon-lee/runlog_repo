@@ -1,0 +1,63 @@
+root@06cd6831fb62:/workspace/DeepSpeed_woo# python -m pytest tests/unit/moe/test_autoep_zero3.py -v
+================================================================== test session starts ==================================================================
+platform linux -- Python 3.12.3, pytest-9.0.2, pluggy-1.6.0 -- /usr/local/bin/python
+cachedir: .pytest_cache
+rootdir: /workspace/DeepSpeed_woo/tests
+configfile: pytest.ini
+plugins: anyio-4.12.0
+collected 37 items                                                                                                                                      
+
+tests/unit/moe/test_autoep_zero3.py::TestParameterTagging::test_autoep_expert_flag_set PASSED                                                     [  2%]
+tests/unit/moe/test_autoep_zero3.py::TestParameterTagging::test_allreduce_flag_false PASSED                                                       [  5%]
+tests/unit/moe/test_autoep_zero3.py::TestParameterTagging::test_non_moe_params_untagged PASSED                                                    [  8%]
+tests/unit/moe/test_autoep_zero3.py::TestConfigParsing::test_disabled_by_default PASSED                                                           [ 10%]
+tests/unit/moe/test_autoep_zero3.py::TestConfigParsing::test_enabled_from_dict PASSED                                                             [ 13%]
+tests/unit/moe/test_autoep_zero3.py::TestConfigParsing::test_validate_world_size_divisibility PASSED                                              [ 16%]
+tests/unit/moe/test_autoep_zero3.py::TestConfigParsing::test_validate_unknown_preset PASSED                                                       [ 18%]
+tests/unit/moe/test_autoep_zero3.py::TestConfigParsing::test_validate_post_detection_no_layers PASSED                                             [ 21%]
+tests/unit/moe/test_autoep_zero3.py::TestConfigParsing::test_validate_post_detection_num_experts_not_divisible PASSED                             [ 24%]
+tests/unit/moe/test_autoep_zero3.py::TestZeroExemption::test_autoep_param_skips_partition PASSED                                                  [ 27%]
+tests/unit/moe/test_autoep_zero3.py::TestZeroExemption::test_is_autoep_expert_param_helper PASSED                                                 [ 29%]
+tests/unit/moe/test_autoep_zero3.py::TestTokenReorderer::test_histogram_correctness PASSED                                                        [ 32%]
+tests/unit/moe/test_autoep_zero3.py::TestTokenReorderer::test_sorted_order PASSED                                                                 [ 35%]
+tests/unit/moe/test_autoep_zero3.py::TestGeneratePermuteIndices::test_basic_permutation PASSED                                                    [ 37%]
+tests/unit/moe/test_autoep_zero3.py::TestGeneratePermuteIndices::test_empty_expert_gets_min_alignment PASSED                                      [ 40%]
+tests/unit/moe/test_autoep_zero3.py::TestCheckpointConstants::test_keys_defined PASSED                                                            [ 43%]
+tests/unit/moe/test_autoep_zero3.py::TestGradientReduceBypass::test_expert_param_routed_to_expert_reduce PASSED                                   [ 45%]
+tests/unit/moe/test_autoep_zero3.py::TestGradientReduceBypass::test_non_expert_param_routed_to_dp_reduce PASSED                                   [ 48%]
+tests/unit/moe/test_autoep_zero3.py::TestGradientReduceBypass::test_reduce_expert_grad_noop_without_group PASSED                                  [ 51%]
+tests/unit/moe/test_autoep_zero3.py::TestGradientReduceBypass::test_reduce_expert_grad_skip_when_no_grad PASSED                                   [ 54%]
+tests/unit/moe/test_autoep_zero3.py::TestGradientReduceBypass::test_create_hook_skips_expert_params PASSED                                        [ 56%]
+tests/unit/moe/test_autoep_zero3.py::TestGradientReduceBypass::test_expert_hook_registered_without_all_gather PASSED                              [ 59%]
+tests/unit/moe/test_autoep_zero3.py::TestGradientReduceBypass::test_routing_logic_matches_actual_source PASSED                                    [ 62%]
+tests/unit/moe/test_autoep_zero3.py::TestOptimizerStateIsolation::test_expert_params_excluded_from_returned_groups PASSED                         [ 64%]
+tests/unit/moe/test_autoep_zero3.py::TestOptimizerStateIsolation::test_autoep_expert_params_list_populated PASSED                                 [ 67%]
+tests/unit/moe/test_autoep_zero3.py::TestOptimizerStateIsolation::test_non_trainable_expert_params_skipped PASSED                                 [ 70%]
+tests/unit/moe/test_autoep_zero3.py::TestOptimizerStateIsolation::test_step_expert_params_noop_when_no_experts PASSED                             [ 72%]
+tests/unit/moe/test_autoep_zero3.py::TestOptimizerStateIsolation::test_step_expert_params_noop_when_no_grad PASSED                                [ 75%]
+tests/unit/moe/test_autoep_zero3.py::TestOptimizerStateIsolation::test_step_expert_params_updates_weights PASSED                                  [ 78%]
+tests/unit/moe/test_autoep_zero3.py::TestOptimizerStateIsolation::test_step_expert_params_loss_scale_applied PASSED                               [ 81%]
+tests/unit/moe/test_autoep_zero3.py::TestOptimizerStateIsolation::test_step_method_contains_expert_step_call PASSED                               [ 83%]
+tests/unit/moe/test_autoep_zero3.py::TestCheckpointIsolation::test_rigid_state_dict_saves_autoep_key PASSED                                       [ 86%]
+tests/unit/moe/test_autoep_zero3.py::TestCheckpointIsolation::test_rigid_load_state_dict_restores_autoep_key PASSED                               [ 89%]
+tests/unit/moe/test_autoep_zero3.py::TestCheckpointIsolation::test_collect_autoep_expert_state_captures_experts PASSED                            [ 91%]
+tests/unit/moe/test_autoep_zero3.py::TestCheckpointIsolation::test_collect_autoep_expert_state_empty_when_no_layers PASSED                        [ 94%]
+tests/unit/moe/test_autoep_zero3.py::TestCheckpointIsolation::test_restore_autoep_expert_state_round_trip PASSED                                  [ 97%]
+tests/unit/moe/test_autoep_zero3.py::TestCheckpointIsolation::test_restore_autoep_expert_state_ep_rank_mismatch_raises PASSED                     [100%]
+
+=================================================================== warnings summary ====================================================================
+unit/moe/test_autoep_zero3.py::TestParameterTagging::test_autoep_expert_flag_set
+  /workspace/DeepSpeed_woo/tests/conftest.py:47: UserWarning: Running test without verifying torch version, please provide an expected torch version with --torch_ver
+    warnings.warn(
+
+unit/moe/test_autoep_zero3.py::TestParameterTagging::test_autoep_expert_flag_set
+  /workspace/DeepSpeed_woo/tests/conftest.py:54: UserWarning: Running test without verifying cuda version, please provide an expected cuda version with --cuda_ver
+    warnings.warn(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=================================================================== slowest durations ===================================================================
+14.47s call     unit/moe/test_autoep_zero3.py::TestParameterTagging::test_autoep_expert_flag_set
+
+(110 durations < 1s hidden.)
+============================================================ 37 passed, 2 warnings in 15.11s ============================================================
+root@06cd6831fb62:/workspace/DeepSpeed_woo# 
