@@ -3,3 +3,11 @@ fix: replace type() equality checks with isinstance()
 Replace `type(x) == T` with `isinstance(x, T)` in two places.
 isinstance() is the idiomatic Python form and correctly handles subclasses,
 as flagged by flake8 E721.
+
+Replace `type(x) == T` with `isinstance(x, T)` in two places:
+
+- `deepspeed/runtime/pipe/module.py`: `TiedLayerSpec.__init__`
+- `deepspeed/runtime/zero/stage_1_and_2.py`: `_restore_base_optimizer_state`
+
+`isinstance` is the idiomatic Python form (flake8 E721) and correctly
+handles subclasses. No functional change for the existing callers.
