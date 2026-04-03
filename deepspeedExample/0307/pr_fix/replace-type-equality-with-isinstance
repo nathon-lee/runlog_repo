@@ -1,0 +1,5 @@
+fix: replace type() equality checks with isinstance()
+
+Replace `type(x) == T` with `isinstance(x, T)` in two places.
+isinstance() is the idiomatic Python form and correctly handles subclasses,
+as flagged by flake8 E721.
