@@ -11,3 +11,18 @@ Replace `type(x) == T` with `isinstance(x, T)` in two places:
 
 `isinstance` is the idiomatic Python form (flake8 E721) and correctly
 handles subclasses. No functional change for the existing callers.
+
+
+pr2 --- 
+
+Replace legacy `str.format()` calls with f-strings in `deepspeed/utils/timer.py`.
+
+Changes:
+- `SynchronizedWallClockTimer.memory_usage()`: 5 `.format()` → 5 f-strings
+- `SynchronizedWallClockTimer.log()`: 1 `.format()` → 1 f-string
+- `ThroughputTimer.stop()` (speed logging): 1 multi-line `.format()` → f-string
+- `ThroughputTimer.stop()` (memory monitoring): 1 `.format()` → f-string
+
+No functional change. F-strings are more readable and slightly more
+performant than `.format()`, consistent with the style used elsewhere
+in the codebase.
