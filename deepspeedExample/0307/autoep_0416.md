@@ -10,7 +10,7 @@
 
 ```bash
 # 1. 安装 DeepSpeed (使用你个人的 AutoEP 测试分支)
-git clone -b my-autoep-feature https://github.com/nathon-lee/DeepSpeed.git
+git clone -b。nathon_autoep_feature https://github.com/nathon-lee/DeepSpeed.git
 cd DeepSpeed
 pip install -e .
 cd ..
