@@ -1,0 +1,82 @@
+root@91ce87fd2da4:/workspace/DeepSpeedExamples_woo/training/expert_parallel# deepspeed --num_gpus 2 train_compare.py     --mode autoep     --deepspeed_config configs/ds_autoep_zero1.json     --num_layers 2     --steps 50     --seq_len 128     --micro_batch_size 2
+[2026-04-16 08:56:57,351] [WARNING] [runner.py:232:fetch_hostfile] Unable to find hostfile, will proceed with training with local resources only.
+[2026-04-16 08:56:57,351] [INFO] [runner.py:630:main] cmd = /usr/bin/python3.12 -u -m deepspeed.launcher.launch --world_info=eyJsb2NhbGhvc3QiOiBbMCwgMV19 --master_addr=127.0.0.1 --master_port=29500 --enable_each_rank_log=None --log_level=info train_compare.py --mode autoep --deepspeed_config configs/ds_autoep_zero1.json --num_layers 2 --steps 50 --seq_len 128 --micro_batch_size 2
+[2026-04-16 08:57:07,807] [INFO] [launch.py:155:main] 0 NV_LIBNCCL_DEV_PACKAGE=libnccl-dev=2.25.1-1+cuda12.8
+[2026-04-16 08:57:07,807] [INFO] [launch.py:155:main] 0 NV_LIBNCCL_DEV_PACKAGE_VERSION=2.25.1-1
+[2026-04-16 08:57:07,807] [INFO] [launch.py:155:main] 0 NCCL_VERSION=2.25.1-1
+[2026-04-16 08:57:07,808] [INFO] [launch.py:155:main] 0 NV_LIBNCCL_DEV_PACKAGE_NAME=libnccl-dev
+[2026-04-16 08:57:07,808] [INFO] [launch.py:155:main] 0 NV_LIBNCCL_PACKAGE=libnccl2=2.25.1-1+cuda12.8
+[2026-04-16 08:57:07,808] [INFO] [launch.py:155:main] 0 NV_LIBNCCL_PACKAGE_NAME=libnccl2
+[2026-04-16 08:57:07,808] [INFO] [launch.py:155:main] 0 NV_LIBNCCL_PACKAGE_VERSION=2.25.1-1
+[2026-04-16 08:57:07,808] [INFO] [launch.py:162:main] WORLD INFO DICT: {'localhost': [0, 1]}
+[2026-04-16 08:57:07,808] [INFO] [launch.py:168:main] nnodes=1, num_local_procs=2, node_rank=0
+[2026-04-16 08:57:07,808] [INFO] [launch.py:179:main] global_rank_mapping=defaultdict(<class 'list'>, {'localhost': [0, 1]})
+[2026-04-16 08:57:07,808] [INFO] [launch.py:180:main] dist_world_size=2
+[2026-04-16 08:57:07,808] [INFO] [launch.py:184:main] Setting CUDA_VISIBLE_DEVICES=0,1
+[2026-04-16 08:57:07,809] [INFO] [launch.py:272:main] process 2837 spawned with command: ['/usr/bin/python3.12', '-u', 'train_compare.py', '--local_rank=0', '--mode', 'autoep', '--deepspeed_config', 'configs/ds_autoep_zero1.json', '--num_layers', '2', '--steps', '50', '--seq_len', '128', '--micro_batch_size', '2']
+[2026-04-16 08:57:07,809] [INFO] [launch.py:272:main] process 2838 spawned with command: ['/usr/bin/python3.12', '-u', 'train_compare.py', '--local_rank=1', '--mode', 'autoep', '--deepspeed_config', 'configs/ds_autoep_zero1.json', '--num_layers', '2', '--steps', '50', '--seq_len', '128', '--micro_batch_size', '2']
+[rank 0] INFO: HTTP Request: HEAD https://huggingface.co/Qwen/Qwen1.5-MoE-A2.7B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[rank 0] WARNING: Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[rank 0] INFO: HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Qwen/Qwen1.5-MoE-A2.7B/1a758c50ecb6350748b9ce0a99d2352fd9fc11c9/config.json "HTTP/1.1 200 OK"
+[rank 0] INFO: Mode: autoep
+[rank 0] INFO: Model: Qwen-MoE with 2 layers, 60 experts
+[rank 0] INFO: Seq len: 128, Micro batch: 2
+[rank 0] INFO: Grad accum: 1, Steps: 50
+[2026-04-16 08:58:16,785] [WARNING] [lr_schedules.py:862:get_lr] Attempting to get learning rate from scheduler before it has started
+[2026-04-16 08:58:16,794] [WARNING] [lr_schedules.py:862:get_lr] Attempting to get learning rate from scheduler before it has started
+[rank 0] INFO: DeepSpeed engine initialized. dp_world_size=2
+[rank 0] INFO: Post-init validation passed.
+[rank 0] INFO: Expert params: local=519,045,120, global_est=1,038,090,240, partition_ratio=2.0, use_grouped_mm=True
+[rank 0] INFO: Starting training for 50 optimizer steps (warmup=5)...
+[rank 0] INFO: Step 5: loss=12.345440, time=0.730s, global_tps=701
+[rank 0] INFO: Step 6: loss=12.327732, time=0.740s, global_tps=692
+[rank 0] INFO: Step 7: loss=12.340241, time=0.767s, global_tps=667
+[rank 0] INFO: Step 8: loss=12.302397, time=0.737s, global_tps=695
+[rank 0] INFO: Step 9: loss=12.376114, time=0.729s, global_tps=702
+[rank 0] INFO: Step 10: loss=12.444674, time=0.724s, global_tps=707
+[rank 0] INFO: Step 11: loss=12.333838, time=0.729s, global_tps=702
+[rank 0] INFO: Step 12: loss=12.378600, time=0.756s, global_tps=677
+[rank 0] INFO: Step 13: loss=12.298426, time=0.731s, global_tps=701
+[rank 0] INFO: Step 14: loss=12.407312, time=0.780s, global_tps=657
+[rank 0] INFO: Step 15: loss=12.361460, time=0.728s, global_tps=703
+[rank 0] INFO: Step 16: loss=12.355078, time=0.729s, global_tps=702
+[rank 0] INFO: Step 17: loss=12.270489, time=0.732s, global_tps=699
+[rank 0] INFO: Step 18: loss=12.418076, time=0.728s, global_tps=703
+[rank 0] INFO: Step 19: loss=12.400139, time=0.727s, global_tps=704
+[rank 0] INFO: Step 20: loss=12.331008, time=0.735s, global_tps=697
+[rank 0] INFO: Step 21: loss=12.334378, time=0.746s, global_tps=687
+[rank 0] INFO: Step 22: loss=12.339640, time=0.735s, global_tps=696
+[rank 0] INFO: Step 23: loss=12.238127, time=0.728s, global_tps=703
+[rank 0] INFO: Step 24: loss=12.303959, time=0.731s, global_tps=700
+[rank 0] INFO: Step 25: loss=12.340664, time=0.729s, global_tps=703
+[rank 0] INFO: Step 26: loss=12.345459, time=0.733s, global_tps=699
+[rank 0] INFO: Step 27: loss=12.266558, time=0.728s, global_tps=703
+[rank 0] INFO: Step 28: loss=12.348819, time=0.743s, global_tps=689
+[rank 0] INFO: Step 29: loss=12.351198, time=0.725s, global_tps=707
+[rank 0] INFO: Step 30: loss=12.357389, time=0.732s, global_tps=699
+[rank 0] INFO: Step 31: loss=12.317116, time=0.729s, global_tps=703
+[rank 0] INFO: Step 32: loss=12.314929, time=0.731s, global_tps=701
+[rank 0] INFO: Step 33: loss=12.349386, time=0.734s, global_tps=697
+[rank 0] INFO: Step 34: loss=12.350710, time=0.737s, global_tps=695
+[rank 0] INFO: Step 35: loss=12.350410, time=0.728s, global_tps=703
+[rank 0] INFO: Step 36: loss=12.401335, time=0.731s, global_tps=700
+[rank 0] INFO: Step 37: loss=12.265167, time=0.730s, global_tps=702
+[rank 0] INFO: Step 38: loss=12.275740, time=0.728s, global_tps=703
+[rank 0] INFO: Step 39: loss=12.293242, time=0.730s, global_tps=701
+[rank 0] INFO: Step 40: loss=12.337416, time=0.729s, global_tps=703
+[rank 0] INFO: Step 41: loss=12.310717, time=0.734s, global_tps=697
+[rank 0] INFO: Step 42: loss=12.308935, time=0.727s, global_tps=704
+[rank 0] INFO: Step 43: loss=12.292158, time=0.787s, global_tps=650
+[rank 0] INFO: Step 44: loss=12.324721, time=0.730s, global_tps=701
+[rank 0] INFO: Step 45: loss=12.372059, time=0.766s, global_tps=668
+[rank 0] INFO: Step 46: loss=12.344147, time=0.731s, global_tps=700
+[rank 0] INFO: Step 47: loss=12.351171, time=0.726s, global_tps=705
+[rank 0] INFO: Step 48: loss=12.346455, time=0.730s, global_tps=701
+[rank 0] INFO: Step 49: loss=12.344915, time=0.722s, global_tps=709
+[rank 0] INFO: Metrics written to metrics_autoep.csv
+[rank 0] INFO: Metadata written to run_metadata_autoep.json
+[rank 0] INFO: Training complete.
+[2026-04-16 08:58:56,840] [INFO] [launch.py:367:main] Process 2838 exits successfully.
+[2026-04-16 08:58:56,841] [INFO] [launch.py:367:main] Process 2837 exits successfully.
+root@91ce87fd2da4:/workspace/DeepSpeedExamples_woo/training/expert_parallel# 
