@@ -1,22 +1,3 @@
-nathon-lee: AutoSP 集成:
-多模态模型支持：多模态模型涉及更长的序列长度，因此序列并行对于训练效率至关重要（参见博客文章）。然而，现有框架（例如 Megatron-LM）不支持 ViT 编码器的序列并行，手动实现需要大量的工程工作。AutoSP 旨在实现这一自动化，从而为基于 DeepSpeed Ulysses 的多模态架构提供开箱即用的序列并行支持。
-
-这个需求如何实现呢? 可以先给我一个方案吗?
-
-
-
-GitHub Copilot: 已在 代码库 中搜索 "sequence parallelism Ulysses multimodal ViT"、10 结果
-
-读取 [](file:///Users/lijian698/Desktop/tmp/xcb/uu1/DeepSpeed_woo/deepspeed/runtime/sequence_parallel)
-
-读取 [](file:///Users/lijian698/Desktop/tmp/xcb/uu1/DeepSpeed_woo/deepspeed/runtime/sequence_parallel/ulysses_sp.py#1-1)，行 1 到 120
-
-读取 [](file:///Users/lijian698/Desktop/tmp/xcb/uu1/DeepSpeed_woo/deepspeed/sequence/layer.py#1-1)，行 1 到 80
-
-好的，我已经对现有代码库有了充分的了解。下面是 **AutoSP 多模态（ViT 编码器）序列并行**的完整技术方案：
-
----
-
 ## AutoSP 集成方案：多模态模型序列并行
 
 ### 核心问题分析
